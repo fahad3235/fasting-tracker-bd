@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fasting Tracker BD — Roja Tracker</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <h1 id="appTitle">Fasting Tracker BD</h1>
+  <p class="tag" id="appTag">Offline roja (fasting) tracker for Bangladesh</p>
+  <div class="row">
+    <button id="langToggle" type="button">বাংলা</button>
+  </div>
+</header>
+<main>
+  <nav aria-label="Sections">
+    <button type="button" class="tab active" data-tab="dashboard" id="tab-dashboard">Dashboard</button>
+    <button type="button" class="tab" data-tab="log" id="tab-log">Log a Fast</button>
+    <button type="button" class="tab" data-tab="calendar" id="tab-calendar">Calendar</button>
+    <button type="button" class="tab" data-tab="history" id="tab-history">History</button>
+    <button type="button" class="tab" data-tab="data" id="tab-data">Data</button>
+  </nav>
+
+  <section id="sec-dashboard">
+    <h2 id="dashHeading">Dashboard</h2>
+    <div class="cards">
+      <div class="card"><span id="lblTotalKept">Total fasts kept</span><b id="statTotal">0</b></div>
+      <div class="card"><span id="lblMonthKept">Kept this month</span><b id="statMonth">0</b></div>
+      <div class="card qada"><span id="lblQada">Qada owed</span><b id="statQada">0</b></div>
+      <div class="card"><span id="lblShawwal">Shawwal 6 progress</span><b id="statShawwal">0/6</b></div>
+    </div>
+    <p class="hint" id="qadaExplain">Qada means a Ramadan fast that was missed and still needs to be made up. This is a simple personal counter: owed = missed Ramadan fasts minus fasts you have marked as made up (never below 0). Missed non-Ramadan fasts do not count toward qada.</p>
+    <p><span id="lblMadeUp">Made up so far</span>: <b id="statMadeUp">0</b></p>
+    <div class="row">
+      <button type="button" id="btnMadeUp">Made up one qada fast</button>
+      <button type="button" class="secondary" id="btnUndoMadeUp">Undo last made-up</button>
+    </div>
+    <p id="qadaMsg" role="status"></p>
+  </section>
+
+  <section id="sec-log" hidden>
+    <h2 id="logHeading">Log a Fast</h2>
+    <form id="logForm" novalidate>
+      <label for="fDate" id="lblDate">Date</label>
+      <input type="date" id="fDate" required>
+      <label for="fType" id="lblType">Type</label>
+      <select id="fType" required></select>
+      <label for="fStatus" id="lblStatus">Status</label>
+      <select id="fStatus" required></select>
+      <label for="fNote" id="lblNote">Note (optional, max 200 characters)</label>
+      <textarea id="fNote" maxlength="200" rows="3"></textarea>
+      <p id="formError" class="error" role="alert"></p>
+      <p id="formOk" class="ok" role="status"></p>
+      <div class="row">
+        <button type="submit" id="btnSave">Save fast</button>
+        <button type="button" class="secondary" id="btnClearForm">Clear</button>
+      </div>
+      <p class="hint" id="editHint">One entry per date. To change an entry, use Edit in History — you can change its status and note there.</p>
+    </form>
+  </section>
+
+  <section id="sec-calendar" hidden>
+    <h2 id="calHeading">Month Calendar</h2>
+    <div class="cal-head">
+      <button type="button" id="calPrev" aria-label="Previous month">‹ Prev</button>
+      <h3 id="calLabel" style="margin:0">—</h3>
+      <button type="button" id="calNext" aria-label="Next month">Next ›</button>
+    </div>
+    <div class="grid" id="calDow"></div>
+    <div class="grid" id="calGrid"></div>
+    <p class="hint" id="calLegend">● Green = kept &nbsp; ● Red = missed &nbsp; ● Grey = excused. Click a marked day to see it in History.</p>
+  </section>
+
+  <section id="sec-history" hidden>
+    <h2 id="histHeading">History</h2>
+    <div class="filters">
+      <label for="filterType" id="lblFilterType">Type filter</label>
+      <select id="filterType"></select>
+      <label for="filterStatus" id="lblFilterStatus">Status filter</label>
+      <select id="filterStatus"></select>
+    </div>
+    <div id="historyList"></div>
+    <p id="emptyState" class="hint"></p>
+  </section>
+
+  <section id="sec-data" hidden>
+    <h2 id="dataHeading">Data — Export, Import, Erase</h2>
+    <p class="hint" id="dataHint">Everything is stored only in this browser (localStorage). No account, no network requests.</p>
+    <div class="row">
+      <button type="button" id="btnExport">Export JSON</button>
+      <a id="downloadLink" hidden href="#">download</a>
+    </div>
+    <label for="importText" id="lblImport">Import JSON (paste a file exported from this app)</label>
+    <textarea id="importText" rows="6" placeholder='{"app":"fasting-tracker-bd","version":1,"entries":[],"madeUp":0}'></textarea>
+    <div class="row"><button type="button" id="btnImport">Import</button></div>
+    <p id="dataMsg" role="status"></p>
+    <label for="eraseText" id="lblErase">Erase all data — type DELETE exactly to confirm</label>
+    <input type="text" id="eraseText" autocomplete="off" placeholder="DELETE">
+    <div class="row"><button type="button" class="danger" id="btnErase" disabled>Erase all data</button></div>
+  </section>
+</main>
+<footer id="footerNote">Personal tracker only — not a religious authority. Qada and Shawwal counting here is a simple personal counter, not a religious ruling. For religious questions, please consult a scholar. Your data never leaves this device.</footer>
+<script src="js/logic.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
